@@ -1,0 +1,49 @@
+package ru.netology.web.data;
+
+import lombok.Value;
+
+public class DataHelper {
+
+    // приватный конструктор, чтобы нельзя было создавать объекты этого класса
+    private DataHelper() {
+    }
+
+    // метод должен возвращать объект AuthInfo
+    public static AuthInfo getAuthInfo() {
+        return new AuthInfo("vasya", "qwerty123");
+    }
+
+    public static AuthInfo getOtherAuthInfo(AuthInfo original) {
+        return new AuthInfo("petya", "123qwerty");
+    }
+
+    public static VerificationCode getVerificationCodeFor(AuthInfo authInfo) {
+        return new VerificationCode("12345");
+    }
+
+    // метод для получения данных первой карты
+    public static CardInfo getFirstCardInfo() {
+        return new CardInfo("5559 0000 0000 0001"); // data-test-id="92df3f1c-a033-48e6-8390-206f6b1f56c0"
+    }
+
+    // метод для получения данных второй карты
+    public static CardInfo getSecondCardInfo() {
+        return new CardInfo("5559 0000 0000 0002"); // data-test-id="0f3f5c2a-249e-4c3d-8287-09f7a039391d"
+    }
+
+    @Value
+    public static class CardInfo {
+        String cardNumber;
+    }
+
+    @Value
+    public static class AuthInfo {
+        String login;
+        String password;
+    }
+
+    @Value
+    public static class VerificationCode {
+        String code;
+    }
+}
