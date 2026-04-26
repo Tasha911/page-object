@@ -2,8 +2,7 @@ package ru.netology.web.test;
 
 import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.api.Test;
 import ru.netology.web.data.DataHelper;
 import ru.netology.web.page.DashBoardPage;
 import ru.netology.web.page.LoginPage;
@@ -28,17 +27,19 @@ public class MoneyTransferTest {
         verificationPage.validVerify(verificationCode);
     }
 
-    @ParameterizedTest
-    @ValueSource(ints = {5_000, 2_000, 20_000, 200_000})
-    void shouldTransferMoneyBetweenOwnCards(int amount) {
+    @Test
+        void shouldTransferMoneyPositive() {
         var dashBoardPage = new DashBoardPage();
 
-        // для перевода берем из DataHelper переменные с информацией о первой карте (номер с кот орого преводить)
+        // для перевода берем из DataHelper переменные с информацией о первой карте (номер с которого преводить)
         var firstCardInfo = DataHelper.getFirstCardInfo();
 
         // вызываем метод из DashBoardPage для переменных баланса - считываем текущие балансы карт
         var firstCardBalance = dashBoardPage.getCardBalance(0);
         var secondCardBalance = dashBoardPage.getCardBalance(1);
+
+        // позитивный тест - сумма меньше остатка
+        int amount = firstCardBalance / 2;
 
         // вычисляем сколько должно остаться на первой карте
         var expectedBalanceFirstCard = firstCardBalance - amount;
@@ -59,4 +60,25 @@ public class MoneyTransferTest {
         assertEquals(expectedBalanceSecondCard, actualBalanceSecondCard);
     }
 
+    @Test
+    void shouldNotTransferIfAmountMoreThanBalance() {
+        var dashBoardPage = new DashBoardPage();
+        var firstCardInfo = DataHelper.getFirstCardInfo();
+
+        // вызываем метод из DashBoardPage для переменных баланса - считываем текущие балансы карт
+        var firstCardBalance = dashBoardPage.getCardBalance(0);
+        var secondCardBalance = dashBoardPage.getCardBalance(1);
+
+        // негативный тест - сумма больше остатка на 500
+        int amount = firstCardBalance + 500;
+
+        // нажимаем кнопку "Пополнить" у второй карты, открывается страница перевода - выполняем перевод на вторую карту
+        var transferPage = dashBoardPage.selectCardToTransfer(1);
+        // вводим сумму, номер первой карты и жмем "Пополнить"
+        dashBoardPage = transferPage.makeTransfer(String.valueOf(amount), firstCardInfo);
+
+        // проверяем, что балансы НЕ изменились
+        assertEquals(firstCardBalance, dashBoardPage.getCardBalance(0));
+        assertEquals(secondCardBalance, dashBoardPage.getCardBalance(1));
+    }
 }

@@ -17,10 +17,10 @@ public class TransferPage {
     }
 
     public DashBoardPage makeTransfer(String amount, DataHelper.CardInfo cardInfo) {
-        amountInput.sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
+        amountInput.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
         amountInput.setValue(amount);
 
-        fromInput.sendKeys(Keys.chord(Keys.CONTROL,"a", Keys.DELETE));
+        fromInput.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
         fromInput.setValue(cardInfo.getCardNumber());
 
         transferButton.click();

@@ -23,15 +23,16 @@ public class DataHelper {
 
     // метод для получения данных первой карты
     public static CardInfo getFirstCardInfo() {
-        return new CardInfo("5559 0000 0000 0001"); // data-test-id="92df3f1c-a033-48e6-8390-206f6b1f56c0"
+        return new CardInfo("5559 0000 0000 0001");
     }
 
     // метод для получения данных второй карты
     public static CardInfo getSecondCardInfo() {
-        return new CardInfo("5559 0000 0000 0002"); // data-test-id="0f3f5c2a-249e-4c3d-8287-09f7a039391d"
+        return new CardInfo("5559 0000 0000 0002");
     }
 
     @Value
+    // класс, который аписыватинформацию о карте
     public static class CardInfo {
         String cardNumber;
     }
@@ -46,4 +47,5 @@ public class DataHelper {
     public static class VerificationCode {
         String code;
     }
+
 }

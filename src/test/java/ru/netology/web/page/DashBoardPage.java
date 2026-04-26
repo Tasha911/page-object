@@ -29,7 +29,7 @@ public class DashBoardPage {
         return extractBalance(text);
     }
 
-    // иаходим кнопку пополнения у карты по ее индексу (0 или 1) кликаем на неё
+    // yаходим кнопку пополнения у карты по ее индексу (0 или 1) кликаем на неё
     // и сообщаем программе, что теперь мы находимся на странице перевода TransferPage
     public TransferPage selectCardToTransfer(int index) {
         cards.get(index).$("button[data-test-id='action-deposit']").click();
